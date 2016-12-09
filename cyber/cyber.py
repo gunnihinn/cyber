@@ -71,7 +71,3 @@ def decode(cyphertext, filename, password):
         plaintext.append(pages[page][word])
 
     return ' '.join(plaintext)
-
-
-if __name__ == '__main__':
-    pass

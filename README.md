@@ -52,18 +52,19 @@ viable attack technique.
 
 For example, say we have a 90.000 word book. On average, there are about 400
 words per page in a book in English. We've defaulted to having between 350 and
-450 words per page. Suppose we're going to split our book into pages. We then
-have 100 possibilities to split it at the first page. At the next page we again
-have 100 possibilities for doing so, and so on. The number of possible
-paginations of the book, and thus ways of assigning coordinates to the words in
-it, is then at least about
+450 words per page. Suppose now that we're going to split our book into pages. 
+The first page will contain between 350 and 450 words, so we have 100
+possibilities for choosing the first page break. At the next page we again
+have 100 possibilities for choosing the page break, and so on. The number of
+possible paginations of the book, and thus ways of assigning coordinates to the
+words in it, is then at least about
 
-    100^(90000/450) = 10^200.
+    100^(90000/450) = 10^400.
 
 A computer can coordinize a book very quickly, and check if the resulting
 encoding makes any sense pretty quickly too. If we say a computer can do this
 for a given book and a given message in a millisecond, it'll take it
 
-    10^200 * 0.001 = 10^197 seconds
+    10^400 * 0.001 = 10^397 seconds
 
-to check all possible encodings, which is something like 10^190 years.
+to check all possible encodings, which is something like 10^390 years.
