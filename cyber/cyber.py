@@ -12,12 +12,15 @@ words_config = {
 }
 
 
+def split(text):
+    return ( char for char in text.strip() )
+
+
 def parseFile(filename):
     # TODO: Deal with punctuation
     with open(filename) as fh:
         contents = fh.read()
-        words = contents.strip().split()
-        return [ word.lower() for word in words ]
+        return [ word.lower() for word in split(contents) ]
 
 
 def paginate(words, password):
@@ -53,7 +56,7 @@ def encode(plaintext, filename, password):
 
     random.seed()
     cyphertext = []
-    words = ( word.lower() for word in plaintext.strip().split() )
+    words = ( word.lower() for word in split(plaintext) )
     for word in words:
         coords = coordinates[word]
         cyphertext.append(coords[random.randrange(0, len(coords))])
