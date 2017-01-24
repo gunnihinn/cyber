@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
+import argparse
 import sys
+
 import cyber
 
 
@@ -52,28 +54,34 @@ words_config = {
 
 
 if __name__ == '__main__':
-    try:
-        subcommand = sys.argv[1]
-    except IndexError:
-        subcommand = 'cyber'
+    parser = argparse.ArgumentParser(description='Encrypt and decrypt text')
+    parser.add_argument('-v', '--version', action='store_true')
+    parser.add_argument('-o', '--outfile')
 
-    if len(sys.argv) < 3:
-        print(help_messages[subcommand])
+    parser.add_argument('command')
+    parser.add_argument('book')
+    parser.add_argument('message')
+
+    args = parser.parse_args()
+
+    if not (args.command and args.book and args.message):
+        print(help_messages['cyber'])
         sys.exit(0)
 
-    book = sys.argv[2]
+    if not (args.book and args.message):
+        print(help_messages[args.command])
+        sys.exit(0)
 
     # TODO: Read from standard input
     password = 'foobar'
-
-    try:
-        message = sys.argv[3]
-    except IndexError:
-        message = '-'
 
     dispatch = {
         'encode': cyber.encode,
         'decode': cyber.decode,
     }
 
-    print(dispatch[subcommand](message, book, password))
+    out = sys.stdout
+    if args.outfile:
+        out = open(args.outfile, 'w')
+
+    print(dispatch[args.command](args.message, args.book, password), file=out)
