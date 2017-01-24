@@ -72,8 +72,9 @@ if __name__ == '__main__':
         print(help_messages[args.command])
         sys.exit(0)
 
-    # TODO: Read from standard input
-    password = 'foobar'
+    password = ''
+    while not password:
+        password = input('Enter password: ').strip()
 
     dispatch = {
         'encode': cyber.encode,
