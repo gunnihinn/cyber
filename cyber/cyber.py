@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random
+import re
 from collections import defaultdict
 
 
@@ -16,8 +17,14 @@ def split(text):
     return ( char for char in text.strip() )
 
 
-def parseFile(filename):
-    # TODO: Deal with punctuation
+def parseCiphertextFile(filename):
+    with open(filename) as fh:
+        contents = fh.read()
+        matches = [ int(d) for d in re.findall(r'\d+', contents) ]
+        return list(zip(matches[0::2], matches[1::2]))
+
+
+def parsePlaintextFile(filename):
     with open(filename) as fh:
         contents = fh.read()
         return [ word.lower() for word in split(contents) ]
@@ -52,7 +59,7 @@ def coordinize(pages):
 
 def encode(plaintext, filename, password):
     'Encode a message based on book in filename and password'
-    coordinates = coordinize(paginate(parseFile(filename), password))
+    coordinates = coordinize(paginate(parsePlaintextFile(filename), password))
 
     random.seed()
     cyphertext = []
@@ -66,11 +73,11 @@ def encode(plaintext, filename, password):
 
 def decode(cyphertext, filename, password):
     'Decode a message by looking up in book in filename'
-    pages = paginate(parseFile(filename), password)
+    pages = paginate(parsePlaintextFile(filename), password)
 
     # cyphertext is a list of pairs of numbers
     plaintext = []
-    for (page, word) in cyphertext:
+    for (page, word) in parseCiphertextFile(cyphertext):
         plaintext.append(pages[page][word])
 
-    return ' '.join(plaintext)
+    return ''.join(plaintext)
